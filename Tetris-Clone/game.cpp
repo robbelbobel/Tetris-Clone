@@ -68,6 +68,32 @@ void Game::fall(){
     }
 }
 
+void Game::checkRows(){
+    int filledRows = 0;
+    for(unsigned int y = 0; y < Game::gameBoard.layout.size(); y++){
+        int filledFragments = 0;
+        for(unsigned int x = 0; x < Game::gameBoard.layout[y].size(); x++){
+            if(!Game::gameBoard.layout[y][x].isEmpty){
+                filledFragments += 1;
+            }
+        }
+        if(filledFragments == Game::gameBoard.width){
+            for(unsigned int i = 0; i < (Game::gameBoard.height - 1); i++){
+                Game::gameBoard.layout[y + i] = Game::gameBoard.layout[y + (i + 1)];
+            }
+            
+            for(unsigned int i = 0; i < Game::gameBoard.width; i++){
+                Game::gameBoard.layout[Game::gameBoard.height - 1][i].isEmpty = true;
+            }
+            
+            filledRows += 1;
+        }
+    }
+    
+    std::cout << "Filled rows: " << filledRows << std::endl;
+    
+}
+
 Game::Game(GLFWwindow* win){
     Game::gameBoard.width = 10;
     Game::gameBoard.height = 20;
@@ -104,4 +130,8 @@ void Game::update(unsigned int scr_width, unsigned int scr_height){
         delete Game::activeTetromino;
         Game::activeTetromino = nullptr;
     }
+    
+    //Check if a line has been cleared
+    Game::checkRows();
+    
 }

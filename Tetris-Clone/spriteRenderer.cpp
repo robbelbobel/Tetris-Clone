@@ -141,8 +141,8 @@ void SpriteRenderer::renderBoard(unsigned int texIndex, GameBoard board, unsigne
 void SpriteRenderer::renderBackground(unsigned int texIndex, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
     glm::mat4 model = glm::mat4(1.0f);
     
-    float scaleY = SCR_WIDTH;
-    float scaleX = (16.0f/9.0f) * SCR_WIDTH;
+    float scaleY = SCR_HEIGHT;
+    float scaleX = (16.0f/9.0f) * SCR_HEIGHT;
     
     model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
     

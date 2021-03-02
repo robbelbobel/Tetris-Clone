@@ -36,6 +36,7 @@ private:
     void inputHandler();
     void render(unsigned int scr_width, unsigned int scr_height);
     void fall();
+    void checkRows();
     
 public:
     Game(GLFWwindow* win);

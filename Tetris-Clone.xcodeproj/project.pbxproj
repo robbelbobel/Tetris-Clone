@@ -1,0 +1,349 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EC71745025EBE7F4001EB747 /* spriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */; };
+		ECC321E025EA728B00CCE296 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC321DF25EA728B00CCE296 /* main.cpp */; };
+		ECC321E925EA72B500CCE296 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ECC321E825EA72B500CCE296 /* libglfw.3.3.dylib */; };
+		ECC321EC25EA731A00CCE296 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = ECC321EB25EA731A00CCE296 /* glad.c */; };
+		ECC321F225EA82DF00CCE296 /* game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC321F025EA82DF00CCE296 /* game.cpp */; };
+		ECC321F625EA83E200CCE296 /* fragment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC321F425EA83E200CCE296 /* fragment.cpp */; };
+		ECC3222325EA8D3600CCE296 /* tetromino.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC3222225EA8D3600CCE296 /* tetromino.cpp */; };
+		ECC3222825EA9F6F00CCE296 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC3222725EA9F6F00CCE296 /* shader.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ECC321DA25EA728A00CCE296 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = spriteRenderer.cpp; sourceTree = "<group>"; };
+		EC71744F25EBE7F4001EB747 /* spriteRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = spriteRenderer.hpp; sourceTree = "<group>"; };
+		ECC321DC25EA728B00CCE296 /* Tetris-Clone */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Tetris-Clone"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECC321DF25EA728B00CCE296 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		ECC321E825EA72B500CCE296 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../usr/local/Cellar/glfw/3.3.3/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		ECC321EA25EA731A00CCE296 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		ECC321EB25EA731A00CCE296 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
+		ECC321F025EA82DF00CCE296 /* game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = game.cpp; sourceTree = "<group>"; };
+		ECC321F125EA82DF00CCE296 /* game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = game.hpp; sourceTree = "<group>"; };
+		ECC321F425EA83E200CCE296 /* fragment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fragment.cpp; sourceTree = "<group>"; };
+		ECC321F525EA83E200CCE296 /* fragment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fragment.hpp; sourceTree = "<group>"; };
+		ECC3222125EA8D3600CCE296 /* tetromino.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tetromino.hpp; sourceTree = "<group>"; };
+		ECC3222225EA8D3600CCE296 /* tetromino.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tetromino.cpp; sourceTree = "<group>"; };
+		ECC3222625EA9F6F00CCE296 /* shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shader.hpp; sourceTree = "<group>"; };
+		ECC3222725EA9F6F00CCE296 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shader.cpp; sourceTree = "<group>"; };
+		ECC3222B25EA9FA600CCE296 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		ECE1A71C25EBC9C100FC4D86 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ECC321D925EA728A00CCE296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECC321E925EA72B500CCE296 /* libglfw.3.3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ECC321D325EA728A00CCE296 = {
+			isa = PBXGroup;
+			children = (
+				ECC321DE25EA728B00CCE296 /* Tetris-Clone */,
+				ECC321DD25EA728B00CCE296 /* Products */,
+				ECC321E725EA72B500CCE296 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		ECC321DD25EA728B00CCE296 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ECC321DC25EA728B00CCE296 /* Tetris-Clone */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ECC321DE25EA728B00CCE296 /* Tetris-Clone */ = {
+			isa = PBXGroup;
+			children = (
+				ECE1A71C25EBC9C100FC4D86 /* assets */,
+				ECC321EA25EA731A00CCE296 /* include */,
+				ECC3222B25EA9FA600CCE296 /* shaders */,
+				ECC321EB25EA731A00CCE296 /* glad.c */,
+				ECC321DF25EA728B00CCE296 /* main.cpp */,
+				ECC321F025EA82DF00CCE296 /* game.cpp */,
+				ECC321F125EA82DF00CCE296 /* game.hpp */,
+				ECC321F425EA83E200CCE296 /* fragment.cpp */,
+				ECC321F525EA83E200CCE296 /* fragment.hpp */,
+				ECC3222225EA8D3600CCE296 /* tetromino.cpp */,
+				ECC3222125EA8D3600CCE296 /* tetromino.hpp */,
+				ECC3222725EA9F6F00CCE296 /* shader.cpp */,
+				ECC3222625EA9F6F00CCE296 /* shader.hpp */,
+				EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */,
+				EC71744F25EBE7F4001EB747 /* spriteRenderer.hpp */,
+			);
+			path = "Tetris-Clone";
+			sourceTree = "<group>";
+		};
+		ECC321E725EA72B500CCE296 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ECC321E825EA72B500CCE296 /* libglfw.3.3.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ECC321DB25EA728A00CCE296 /* Tetris-Clone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECC321E325EA728B00CCE296 /* Build configuration list for PBXNativeTarget "Tetris-Clone" */;
+			buildPhases = (
+				ECC321D825EA728A00CCE296 /* Sources */,
+				ECC321D925EA728A00CCE296 /* Frameworks */,
+				ECC321DA25EA728A00CCE296 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Tetris-Clone";
+			productName = "Tetris-Clone";
+			productReference = ECC321DC25EA728B00CCE296 /* Tetris-Clone */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ECC321D425EA728A00CCE296 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					ECC321DB25EA728A00CCE296 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+				};
+			};
+			buildConfigurationList = ECC321D725EA728A00CCE296 /* Build configuration list for PBXProject "Tetris-Clone" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ECC321D325EA728A00CCE296;
+			productRefGroup = ECC321DD25EA728B00CCE296 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ECC321DB25EA728A00CCE296 /* Tetris-Clone */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ECC321D825EA728A00CCE296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECC3222825EA9F6F00CCE296 /* shader.cpp in Sources */,
+				EC71745025EBE7F4001EB747 /* spriteRenderer.cpp in Sources */,
+				ECC321E025EA728B00CCE296 /* main.cpp in Sources */,
+				ECC3222325EA8D3600CCE296 /* tetromino.cpp in Sources */,
+				ECC321F625EA83E200CCE296 /* fragment.cpp in Sources */,
+				ECC321EC25EA731A00CCE296 /* glad.c in Sources */,
+				ECC321F225EA82DF00CCE296 /* game.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		ECC321E125EA728B00CCE296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ECC321E225EA728B00CCE296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		ECC321E425EA728B00CCE296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.3.3/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ECC321E525EA728B00CCE296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.3.3/lib,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ECC321D725EA728A00CCE296 /* Build configuration list for PBXProject "Tetris-Clone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECC321E125EA728B00CCE296 /* Debug */,
+				ECC321E225EA728B00CCE296 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ECC321E325EA728B00CCE296 /* Build configuration list for PBXNativeTarget "Tetris-Clone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECC321E425EA728B00CCE296 /* Debug */,
+				ECC321E525EA728B00CCE296 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ECC321D425EA728A00CCE296 /* Project object */;
+}
