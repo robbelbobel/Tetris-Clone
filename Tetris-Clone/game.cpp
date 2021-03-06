@@ -10,7 +10,6 @@
 void Game::inputHandler(){
     if(glfwGetKey(Game::window, GLFW_KEY_ESCAPE)){
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-        
     }
     if(glfwGetKey(Game::window, GLFW_KEY_RIGHT)){
         if(Game::inputListening){
@@ -69,29 +68,47 @@ void Game::fall(){
 }
 
 void Game::checkRows(){
-    int filledRows = 0;
-    for(unsigned int y = 0; y < Game::gameBoard.layout.size(); y++){
-        int filledFragments = 0;
-        for(unsigned int x = 0; x < Game::gameBoard.layout[y].size(); x++){
+    std::vector<int> clearedLines = {};
+    for(unsigned int y = 0; y < Game::gameBoard.height; y++){
+        int rowFragments = 0;
+        for(unsigned int x = 0; x < Game::gameBoard.width; x++){
             if(!Game::gameBoard.layout[y][x].isEmpty){
-                filledFragments += 1;
+                rowFragments++;
             }
         }
-        if(filledFragments == Game::gameBoard.width){
-            for(unsigned int i = 0; i < (Game::gameBoard.height - 1); i++){
-                Game::gameBoard.layout[y + i] = Game::gameBoard.layout[y + (i + 1)];
-            }
-            
-            for(unsigned int i = 0; i < Game::gameBoard.width; i++){
-                Game::gameBoard.layout[Game::gameBoard.height - 1][i].isEmpty = true;
-            }
-            
-            filledRows += 1;
+        if(rowFragments == Game::gameBoard.width){
+            clearedLines.push_back(y);
         }
     }
     
-    std::cout << "Filled rows: " << filledRows << std::endl;
-    
+    if(clearedLines.size() > 0){
+        // Update gameboard
+        for(unsigned int i = clearedLines[0]; i < Game::gameBoard.layout.size(); i++){
+            if(i + clearedLines.size() < (Game::gameBoard.height - 1)){
+                Game::gameBoard.layout[i] = Game::gameBoard.layout[i + clearedLines.size()];
+            }else{
+                Game::gameBoard.layout[i] = std::vector<Fragment>(Game::gameBoard.width, Fragment());
+            }
+        }
+        
+        // Update score
+        switch(clearedLines.size()){
+            case 1:
+                Game::score += 100;
+                break;
+            case 2:
+                Game::score += 300;
+                break;
+            case 3:
+                Game::score += 500;
+                break;
+            case 4:
+                Game::score += 800;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 Game::Game(GLFWwindow* win){
@@ -130,6 +147,8 @@ void Game::update(unsigned int scr_width, unsigned int scr_height){
         delete Game::activeTetromino;
         Game::activeTetromino = nullptr;
     }
+    
+    std::cout << "Score: " << Game::score << std::endl;
     
     //Check if a line has been cleared
     Game::checkRows();

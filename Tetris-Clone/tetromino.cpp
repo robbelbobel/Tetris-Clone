@@ -8,8 +8,8 @@
 #include "tetromino.hpp"
 
 Tetromino::Tetromino(int pos_x, int pos_y){
-//    Tetromino::shape = (int) rand() % 7;
-    Tetromino::shape = O_PIECE;
+    Tetromino::shape = (int) rand() % 7;
+//    Tetromino::shape = O_PIECE;
     Tetromino::a_rot = ROT_NORTH;
     
     switch(shape){
@@ -354,16 +354,13 @@ void Tetromino::draw(){
 void Tetromino::move(int direction, GameBoard board){
     if(direction == DIR_DOWN){
         bool moveable = true;
-        for (unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
-            std::cout << "posy: " << Tetromino::posY << std::endl;
-            if(Tetromino::posY > -1){
-                if(!board.layout[Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y][Tetromino::posX + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x].isEmpty){
-                    moveable = false;
-                }else{
-                    moveable = true;
-                }
+        
+        for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
+            if(Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y >= 0){
+                moveable = true;
             }else{
                 moveable = false;
+                break;
             }
         }
         
@@ -400,9 +397,9 @@ void Tetromino::move(int direction, GameBoard board){
         // Check If All Fragments Are Able to Move
         for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
             // Check if the fragment is at the right and bottom edge of the gameboard
-            if((Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX) < (board.width - 1) && (Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY) >= 0){
+            if((Tetromino::posX + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x) < (board.width - 1) && (Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y) >= 0){
                 // Check if the Fragment right of the Fragment is empty
-                if(!board.layout[Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY][Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX + 1].isEmpty){
+                if(!board.layout[Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y ][ Tetromino::posX + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + 1].isEmpty){
                     moveable = false;
                 }
             }else{
@@ -421,32 +418,28 @@ void Tetromino::move(int direction, GameBoard board){
 void Tetromino::rotate(int rot, GameBoard board){
     bool rotateable = true;
     
-    int widthChange = Tetromino::rotations[rot].width - Tetromino::rotations[Tetromino::a_rot].width;
-    int heightChange = Tetromino::rotations[rot].height - Tetromino::rotations[Tetromino::a_rot].height;
-    
-    if(!(widthChange == 0 && heightChange == 0)){
-        for(unsigned int i = 0; i < Tetromino::rotations[rot].fragments.size(); i++){
-            if(Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x >= 0 && Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x < board.width){
-                if(Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y >= 0 && Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y < board.height){
-                    if(!board.layout[Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y][Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x].isEmpty){
-                        std::cout << "Can't rotate!" << std::endl;
-                        rotateable = false;
-                    }
+    for(unsigned int i = 0; i < Tetromino::rotations[rot].fragments.size(); i++){
+        if((Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x) < board.width && (Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x) >= 0){
+            if((Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y) < board.height && (Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y) >= 0){
+                if(board.layout[Tetromino::posY + Tetromino::rotations[rot].fragments[i].p_y][Tetromino::posX + Tetromino::rotations[rot].fragments[i].p_x].isEmpty){
+                    rotateable = true;
                 }else{
-                    std::cout << "Can't rotate!" << std::endl;
-                    rotateable =false;
+                    rotateable = false;
+                    break;
                 }
             }else{
-                std::cout << "Can't rotate!" << std::endl;
                 rotateable = false;
+                break;
             }
+        }else{
+            rotateable = false;
+            break;
         }
     }
     
     if(rotateable){
         Tetromino::a_rot = rot;
     }
-    
 }
     
     bool Tetromino::checkCollision(GameBoard &board, bool &gameOver){

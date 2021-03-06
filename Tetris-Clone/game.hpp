@@ -12,6 +12,12 @@
 #include "spriteRenderer.hpp"
 #include <GLFW/glfw3.h>
 
+enum gameStates{
+    GAME_MENU,
+    GAME_PAUSE,
+    GAME_RUNNING
+};
+
 class Game{
 private:
     Tetromino *activeTetromino = nullptr;
@@ -22,13 +28,15 @@ private:
     GLFWwindow* window = nullptr;
     
     // Time Variables
-    float fallSpeed = 1.0f;
+    float fallSpeed = 0.5f;
     float counter = 0.0f;
     float d_time = 0.0f;
     float old_time;
     
     unsigned int fragTex;
     unsigned int backgroundTex;
+    
+    unsigned int score;
     
     bool gameOver;
     bool inputListening = true;
@@ -37,6 +45,8 @@ private:
     void render(unsigned int scr_width, unsigned int scr_height);
     void fall();
     void checkRows();
+    
+    int activeGameState;
     
 public:
     Game(GLFWwindow* win);
