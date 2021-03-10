@@ -51,6 +51,8 @@ void Game::render(unsigned int scr_width, unsigned int scr_height){
     Game::spriteRenderer.renderBoard(Game::fragTex, Game::gameBoard, scr_width, scr_height);
     // Draw the falling tetromino
     Game::spriteRenderer.renderTetromino(Game::fragTex, Game::activeTetromino, Game::gameBoard, scr_width, scr_height);
+    // Draw the UI
+    Game::spriteRenderer.renderUI(Game::scoreTex, Game::score, Game::gameBoard, scr_width, scr_height);
 }
 
 void Game::fall(){
@@ -125,11 +127,14 @@ Game::Game(GLFWwindow* win){
     
     Game::fragTex = Game::spriteRenderer.loadTexture("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/fragment.png");
     Game::backgroundTex = Game::spriteRenderer.loadTexture("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/background.png");
+    Game::scoreTex = Game::spriteRenderer.loadNumbers("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/numbers");
 }
 
 void Game::update(unsigned int scr_width, unsigned int scr_height){
     // Check if there is a falling tetromino, if there isn't make one.
     if(Game::activeTetromino == nullptr){
+        //Check if a line has been cleared
+        Game::checkRows();
         Game::activeTetromino = new Tetromino(floor(Game::gameBoard.width/2), Game::gameBoard.height);
     }
     
@@ -147,10 +152,4 @@ void Game::update(unsigned int scr_width, unsigned int scr_height){
         delete Game::activeTetromino;
         Game::activeTetromino = nullptr;
     }
-    
-    std::cout << "Score: " << Game::score << std::endl;
-    
-    //Check if a line has been cleared
-    Game::checkRows();
-    
 }

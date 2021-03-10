@@ -9,7 +9,7 @@
 
 Tetromino::Tetromino(int pos_x, int pos_y){
     Tetromino::shape = (int) rand() % 7;
-//    Tetromino::shape = O_PIECE;
+//    Tetromino::shape = J_PIECE;
     Tetromino::a_rot = ROT_NORTH;
     
     switch(shape){
@@ -82,19 +82,19 @@ Tetromino::Tetromino(int pos_x, int pos_y){
             
             //Southern Rotation
             Rotation s_rot;
-            e_rot.fragments.push_back(Fragment(0, 0, YELLOW));
-            e_rot.fragments.push_back(Fragment(1, 0, YELLOW));
-            e_rot.fragments.push_back(Fragment(0, 1, YELLOW));
-            e_rot.fragments.push_back(Fragment(1, 1, YELLOW));
+            s_rot.fragments.push_back(Fragment(0, 0, YELLOW));
+            s_rot.fragments.push_back(Fragment(1, 0, YELLOW));
+            s_rot.fragments.push_back(Fragment(0, 1, YELLOW));
+            s_rot.fragments.push_back(Fragment(1, 1, YELLOW));
             s_rot.height = 2;
             s_rot.width = 2;
             
             //Western Rotation
             Rotation w_rot;
-            e_rot.fragments.push_back(Fragment(0, 0, YELLOW));
-            e_rot.fragments.push_back(Fragment(1, 0, YELLOW));
-            e_rot.fragments.push_back(Fragment(0, 1, YELLOW));
-            e_rot.fragments.push_back(Fragment(1, 1, YELLOW));
+            w_rot.fragments.push_back(Fragment(0, 0, YELLOW));
+            w_rot.fragments.push_back(Fragment(1, 0, YELLOW));
+            w_rot.fragments.push_back(Fragment(0, 1, YELLOW));
+            w_rot.fragments.push_back(Fragment(1, 1, YELLOW));
             w_rot.height = 2;
             w_rot.width = 2;
             
@@ -248,37 +248,37 @@ Tetromino::Tetromino(int pos_x, int pos_y){
             //-----PRECALCULATED ROTATIONS-----
             // Northern(standard) Rotation
             Rotation n_rot;
-            n_rot.fragments.push_back(Fragment(1, 0, BLUE));
-            n_rot.fragments.push_back(Fragment(1, 1, BLUE));
-            n_rot.fragments.push_back(Fragment(1, 2, BLUE));
-            n_rot.fragments.push_back(Fragment(2, 2, BLUE));
+            n_rot.fragments.push_back(Fragment(1, 0, PINK));
+            n_rot.fragments.push_back(Fragment(1, 1, PINK));
+            n_rot.fragments.push_back(Fragment(1, 2, PINK));
+            n_rot.fragments.push_back(Fragment(2, 2, PINK));
             n_rot.height = 3;
             n_rot.width = 3;
             
             // Eastern Rotation
             Rotation e_rot;
-            e_rot.fragments.push_back(Fragment(2, 0, BLUE));
-            e_rot.fragments.push_back(Fragment(0, 1, BLUE));
-            e_rot.fragments.push_back(Fragment(1, 1, BLUE));
-            e_rot.fragments.push_back(Fragment(2, 1, BLUE));
+            e_rot.fragments.push_back(Fragment(2, 0, PINK));
+            e_rot.fragments.push_back(Fragment(0, 1, PINK));
+            e_rot.fragments.push_back(Fragment(1, 1, PINK));
+            e_rot.fragments.push_back(Fragment(2, 1, PINK));
             e_rot.height = 2;
             e_rot.width = 3;
             
             // Southern Rotation
             Rotation s_rot;
-            s_rot.fragments.push_back(Fragment(0, 0, BLUE));
-            s_rot.fragments.push_back(Fragment(1, 0, BLUE));
-            s_rot.fragments.push_back(Fragment(1, 1, BLUE));
-            s_rot.fragments.push_back(Fragment(1, 2, BLUE));
+            s_rot.fragments.push_back(Fragment(0, 0, PINK));
+            s_rot.fragments.push_back(Fragment(1, 0, PINK));
+            s_rot.fragments.push_back(Fragment(1, 1, PINK));
+            s_rot.fragments.push_back(Fragment(1, 2, PINK));
             s_rot.height = 3;
             s_rot.width = 2;
             
             // Western Rotation
             Rotation w_rot;
-            w_rot.fragments.push_back(Fragment(0, 1, BLUE));
-            w_rot.fragments.push_back(Fragment(1, 1, BLUE));
-            w_rot.fragments.push_back(Fragment(2, 1, BLUE));
-            w_rot.fragments.push_back(Fragment(0, 2, BLUE));
+            w_rot.fragments.push_back(Fragment(0, 1, PINK));
+            w_rot.fragments.push_back(Fragment(1, 1, PINK));
+            w_rot.fragments.push_back(Fragment(2, 1, PINK));
+            w_rot.fragments.push_back(Fragment(0, 2, PINK));
             w_rot.height = 3;
             w_rot.width = 3;
             
@@ -357,7 +357,10 @@ void Tetromino::move(int direction, GameBoard board){
         
         for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
             if(Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y >= 0){
-                moveable = true;
+                if(!(board.layout[Tetromino::posY + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y][Tetromino::posX + Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x].isEmpty)){
+                    moveable = false;
+                    break;
+                }
             }else{
                 moveable = false;
                 break;
@@ -414,7 +417,6 @@ void Tetromino::move(int direction, GameBoard board){
     }
 }
 
-
 void Tetromino::rotate(int rot, GameBoard board){
     bool rotateable = true;
     
@@ -441,34 +443,34 @@ void Tetromino::rotate(int rot, GameBoard board){
         Tetromino::a_rot = rot;
     }
 }
-    
-    bool Tetromino::checkCollision(GameBoard &board, bool &gameOver){
-        bool collided = false;
-        // Check Collision For Every Fragment
-        for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
-            // Check if fragment has reached the bottom
-            if(Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY < 0){
+
+bool Tetromino::checkCollision(GameBoard &board, bool &gameOver){
+    bool collided = false;
+    // Check Collision For Every Fragment
+    for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
+        // Check if fragment has reached the bottom
+        if(Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY < 0){
+            collided = true;
+            break;
+            // Check if fragment has collided with another fragment
+        }else{
+            if(!board.layout[Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY][Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX].isEmpty){
                 collided = true;
                 break;
-                // Check if fragment has collided with another fragment
-            }else{
-                if(!board.layout[Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY][Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX].isEmpty){
-                    collided = true;
-                    break;
-                }
             }
         }
-        
-        // If a Fragment Has Collided With the Bottom of The Board It Gets Added to The GameBoard
-        if(collided){
-            for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){ //THIS IS STRANGE
-                // Check If a Fragment is Higher Than The Maximum Height
-                if(Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY < (board.height - 1)){
-                    board.layout[Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY + 1][Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX] = Tetromino::rotations[Tetromino::a_rot].fragments[i];
-                }else{
-                    gameOver = true;
-                }
-            }
-        }
-        return collided;
     }
+    
+    // If a Fragment Has Collided With the Bottom of The Board It Gets Added to The GameBoard
+    if(collided){
+        for(unsigned int i = 0; i < Tetromino::rotations[Tetromino::a_rot].fragments.size(); i++){
+            // Check If a Fragment is Higher Than The Maximum Height
+            if(Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY < (board.height - 1)){
+                board.layout[Tetromino::rotations[Tetromino::a_rot].fragments[i].p_y + Tetromino::posY + 1][Tetromino::rotations[Tetromino::a_rot].fragments[i].p_x + Tetromino::posX] = Tetromino::rotations[Tetromino::a_rot].fragments[i];
+            }else{
+                gameOver = true;
+            }
+        }
+    }
+    return collided;
+}

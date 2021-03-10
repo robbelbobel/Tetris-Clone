@@ -17,7 +17,7 @@ enum Colors{
     PURPLE,
     GREEN,
     RED,
-    BLUE,
+    PINK,
     ORANGE,
     WHITE
 };

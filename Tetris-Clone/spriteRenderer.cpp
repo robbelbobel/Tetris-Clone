@@ -26,8 +26,8 @@ void SpriteRenderer::renderFragment(Fragment fragment, glm::mat4 model){
         case RED:
             color = glm::vec3(1.0f, 0.0f, 0.0f);
             break;
-        case BLUE:
-            color = glm::vec3(0.0f, 0.0f, 1.0f);
+        case PINK:
+            color = glm::vec3(0.87, 0.12f, 0.74f);
             break;
         case ORANGE:
             color = glm::vec3(1.0f, 0.65, 0.0f);
@@ -39,17 +39,82 @@ void SpriteRenderer::renderFragment(Fragment fragment, glm::mat4 model){
     }
     
     // Set Fragment Color
-    SpriteRenderer::fragmentShader.setVec3("color", color);
+    SpriteRenderer::fragmentShader->setVec3("color", color);
     
     // Set Model Matrix
-    SpriteRenderer::fragmentShader.setMat4("model", model);
+    SpriteRenderer::fragmentShader->setMat4("model", model);
     
     // Draw The Fragment (2*Triangles => 6 vertices)
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-SpriteRenderer::SpriteRenderer() : fragmentShader("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/fragment.vert", "/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/fragment.frag"), backgroundShader("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/background.vert", "/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/background.frag")
-{
+void SpriteRenderer::renderScore(unsigned int texIndex, unsigned int score, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
+    int digitCount = 6;
+    int digits[digitCount];
+    
+    // Calculate score text width, height and clearance
+    float score_width = SpriteRenderer::scoreWidthRatio * SCR_WIDTH;
+    float score_height = ((float) SpriteRenderer::textures[texIndex].height / (float) SpriteRenderer::textures[texIndex].width) * score_width;
+    float score_clearance = SpriteRenderer::scoreClearanceY * score_height;
+    
+    // Calculate score number width, height and clearance
+    float number_height = score_height;
+    float number_width = ((float) SpriteRenderer::textures[SpriteRenderer::numTextures[0]].width / (float) SpriteRenderer::textures[SpriteRenderer::numTextures[0]].height) * number_height;
+    float number_clearance = SpriteRenderer::numClearanceX * number_width;
+    
+    // Calculate score number position
+    float number_x = SpriteRenderer::Board_marginRatio_x * SCR_WIDTH - (gameBoard.width / 2) * SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT;
+    float number_y = SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT - (gameBoard.height / 2) * SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT + number_height + score_height + score_clearance;
+    
+    // Calculate score text position
+    float score_x = number_x - score_width;
+    float score_y = number_y - number_height - score_clearance;
+    
+    // Convert score to seperate integers
+    for(unsigned int i = 0; i < digitCount; i++){
+        digits[i] = ((int) floor(score / pow(10, i))) % 10;
+    }
+    std::cout << "score: " << score << std::endl;
+    
+    // -----Number draw loop-----
+    // Start using generic shader
+    SpriteRenderer::genericShader->use();
+    SpriteRenderer::genericShader->setInt("genericTex", 0);
+    SpriteRenderer::genericShader->setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
+    
+    glActiveTexture(GL_TEXTURE0);
+    
+    for(unsigned int i = 0; i < digitCount; i++){
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(number_x - ((i + 1) * (number_width + number_clearance)), number_y, 0.0f));
+        model = glm::scale(model, glm::vec3(number_width, number_height, 1.0f));
+        
+        // Set model uniform
+        SpriteRenderer::genericShader->setMat4("model", model);
+        
+        // Draw the score
+        glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[SpriteRenderer::numTextures[digits[i]]].ID);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+    
+    // -----Score Text Drawing-----
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(score_x, score_y, 0.0f));
+    model = glm::scale(model, glm::vec3(score_width, score_height, 1.0f));
+    
+    SpriteRenderer::genericShader->setMat4("model", model);
+    
+    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    
+}
+
+SpriteRenderer::SpriteRenderer(){
+    // Assign Shader Pointers
+    SpriteRenderer::fragmentShader = new Shader("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/fragment.vert", "/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/fragment.frag");
+    SpriteRenderer::backgroundShader = new Shader("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/background.vert", "/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/background.frag");
+    SpriteRenderer::genericShader = new Shader("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/generic.vert", "/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/shaders/generic.frag");
+    
     // Vertices
     const float vertices[] = {
         // ----POS----  ----TEX----
@@ -107,25 +172,39 @@ int SpriteRenderer::loadTexture(std::string path){
     
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    SpriteRenderer::textures.push_back(texID);
+    Texture texture;
+    texture.ID = texID;
+    texture.width = width;
+    texture.height = height;
+    texture.nrChannels = nrChannels;
+    
+    SpriteRenderer::textures.push_back(texture);
     
     return (int) (SpriteRenderer::textures.size() - 1);
 }
 
+int SpriteRenderer::loadNumbers(std::string path){
+    for(unsigned int i = 0; i <= 9; i++){
+        SpriteRenderer::numTextures.push_back(SpriteRenderer::loadTexture(path + "/" + std::to_string(i) + ".png"));
+    }
+    
+    return SpriteRenderer::loadTexture(path + "/score.png");
+}
+
 void SpriteRenderer::renderBoard(unsigned int texIndex, GameBoard board, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
-    SpriteRenderer::fragmentShader.use();
-    SpriteRenderer::fragmentShader.setInt("fragmentTexture", 0);
-    SpriteRenderer::fragmentShader.setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
+    SpriteRenderer::fragmentShader->use();
+    SpriteRenderer::fragmentShader->setInt("fragmentTexture", 0);
+    SpriteRenderer::fragmentShader->setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex]);
+    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
     
     glBindVertexArray(SpriteRenderer::VAO);
     
     int fragmentSize = floor(SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT);
     
-    int UI_margin_x = floor(SpriteRenderer::UI_marginRatio_x * SCR_WIDTH) - (fragmentSize * board.width)/2;
-    int UI_margin_y = floor(SpriteRenderer::UI_marginRatio_y * SCR_HEIGHT) - (fragmentSize * board.height)/2;
+    int UI_margin_x = floor(SpriteRenderer::Board_marginRatio_x * SCR_WIDTH) - (fragmentSize * board.width)/2;
+    int UI_margin_y = floor(SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT) - (fragmentSize * board.height)/2;
     
     for(unsigned int y = 0; y < board.layout.size(); y++){
         for(unsigned int x = 0; x < board.layout[y].size(); x++){
@@ -146,13 +225,13 @@ void SpriteRenderer::renderBackground(unsigned int texIndex, unsigned int SCR_WI
     
     model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
     
-    SpriteRenderer::backgroundShader.use();
-    SpriteRenderer::backgroundShader.setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
-    SpriteRenderer::backgroundShader.setMat4("model", model);
+    SpriteRenderer::backgroundShader->use();
+    SpriteRenderer::backgroundShader->setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
+    SpriteRenderer::backgroundShader->setMat4("model", model);
     
-    SpriteRenderer::backgroundShader.setInt("backgroundTexture", 0);
+    SpriteRenderer::backgroundShader->setInt("backgroundTexture", 0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex]);
+    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
     
     glBindVertexArray(SpriteRenderer::VAO);
     
@@ -161,19 +240,19 @@ void SpriteRenderer::renderBackground(unsigned int texIndex, unsigned int SCR_WI
 }
 
 void SpriteRenderer::renderTetromino(unsigned int texIndex, Tetromino* tetromino, GameBoard board, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
-    SpriteRenderer::fragmentShader.use();
-    SpriteRenderer::fragmentShader.setInt("fragmentTexture", 0);
-    SpriteRenderer::fragmentShader.setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
+    SpriteRenderer::fragmentShader->use();
+    SpriteRenderer::fragmentShader->setInt("fragmentTexture", 0);
+    SpriteRenderer::fragmentShader->setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex]);
+    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
     
     glBindVertexArray(SpriteRenderer::VAO);
     
     int fragmentSize = floor(SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT);
     
-    int UI_margin_x = floor(SpriteRenderer::UI_marginRatio_x * SCR_WIDTH) - (fragmentSize * board.width)/2;
-    int UI_margin_y = floor(SpriteRenderer::UI_marginRatio_y * SCR_HEIGHT) - (fragmentSize * board.height)/2;
+    int UI_margin_x = floor(SpriteRenderer::Board_marginRatio_x * SCR_WIDTH) - (fragmentSize * board.width)/2;
+    int UI_margin_y = floor(SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT) - (fragmentSize * board.height)/2;
     
     for(unsigned int i = 0; i < tetromino->rotations[tetromino->a_rot].fragments.size(); i++){
         glm::mat4 model = glm::mat4(1.0f);
@@ -184,4 +263,8 @@ void SpriteRenderer::renderTetromino(unsigned int texIndex, Tetromino* tetromino
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
+}
+
+void SpriteRenderer::renderUI(unsigned int scoreIndex, unsigned int score, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
+    SpriteRenderer::renderScore(scoreIndex, score, gameBoard, SCR_WIDTH, SCR_HEIGHT);
 }
