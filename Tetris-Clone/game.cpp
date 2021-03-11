@@ -11,37 +11,40 @@ void Game::inputHandler(){
     if(glfwGetKey(Game::window, GLFW_KEY_ESCAPE)){
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
-    if(glfwGetKey(Game::window, GLFW_KEY_RIGHT)){
-        if(Game::inputListening){
+    bool canMove = false;
+    
+    Game::moveCounter += Game::d_time;
+    
+    if(Game::moveCounter > (1.0f / Game::moveSpeed)){
+        canMove = true;
+        Game::moveCounter = 0;
+    }
+    
+    if(canMove){
+        if(glfwGetKey(Game::window, GLFW_KEY_RIGHT)){
             Game::activeTetromino->move(DIR_RIGHT, Game::gameBoard);
-            Game::inputListening = false;
-        }
-    }else if(glfwGetKey(Game::window, GLFW_KEY_LEFT)){
-        if(Game::inputListening){
+        }else if(glfwGetKey(Game::window, GLFW_KEY_LEFT)){
             Game::activeTetromino->move(DIR_LEFT, Game::gameBoard);
-            Game::inputListening = false;
-        }
-    }else if(glfwGetKey(Game::window, GLFW_KEY_DOWN)){
-        if(Game::inputListening){
+        }else if(glfwGetKey(Game::window, GLFW_KEY_DOWN)){
             Game::activeTetromino->move(DIR_DOWN, Game::gameBoard);
-            Game::inputListening = false;
         }
-    }else if(glfwGetKey(Game::window, GLFW_KEY_SPACE)){
-        if(Game::inputListening){
+    }
+    
+    if(glfwGetKey(Game::window, GLFW_KEY_SPACE)){
+        if(Game::canRotate){
             int rot;
             if(Game::activeTetromino->a_rot < 3){
                 rot = Game::activeTetromino->a_rot + 1;
             }else{
                 rot = ROT_NORTH;
             }
-            
             Game::activeTetromino->rotate(rot, Game::gameBoard);
-            
-            Game::inputListening = false;
+            Game::canRotate = false;
         }
     }else{
-        Game::inputListening = true;
+        Game::canRotate = true;
     }
+    
 }
 
 void Game::render(unsigned int scr_width, unsigned int scr_height){
@@ -56,16 +59,12 @@ void Game::render(unsigned int scr_width, unsigned int scr_height){
 }
 
 void Game::fall(){
-    // Update deltatime
-    Game::d_time = (float) glfwGetTime() - Game::old_time;
-    Game::old_time = (float) glfwGetTime();
-    
     // Update counter
-    Game::counter -= d_time;
+    Game::fallCounter -= d_time;
     
-    if(Game::counter <= 0){
+    if(Game::fallCounter <= 0){
         Game::activeTetromino->move(DIR_DOWN, gameBoard);
-        Game::counter = Game::fallSpeed;
+        Game::fallCounter = Game::fallSpeed;
     }
 }
 
@@ -153,4 +152,8 @@ void Game::update(unsigned int scr_width, unsigned int scr_height){
         delete Game::activeTetromino;
         Game::activeTetromino = nullptr;
     }
+        
+    // Update deltatime
+    Game::d_time = (float) glfwGetTime() - Game::old_time;
+    Game::old_time = (float) glfwGetTime();
 }

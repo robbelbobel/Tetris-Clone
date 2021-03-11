@@ -27,9 +27,14 @@ private:
     
     GLFWwindow* window = nullptr;
     
-    // Time Variables
-    float fallSpeed = 0.5f;
-    float counter = 0.0f;
+    // -----Time Variables-----
+    // Move Variables
+    const unsigned int moveSpeed = 10;
+    float moveCounter = 0.0f;
+    // Fall Variables
+    const float fallSpeed = 0.5f;
+    float fallCounter = 0.0f;
+    // Delta Time Variables
     float d_time = 0.0f;
     float old_time;
     
@@ -41,7 +46,7 @@ private:
     unsigned int score;
     
     bool gameOver;
-    bool inputListening = true;
+    bool canRotate;
     
     void inputHandler();
     void render(unsigned int scr_width, unsigned int scr_height);
