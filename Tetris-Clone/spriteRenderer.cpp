@@ -48,12 +48,40 @@ void SpriteRenderer::renderFragment(Fragment fragment, glm::mat4 model){
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
+void SpriteRenderer::renderFrame(unsigned int texIndex, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
+    float board_height =  (float) SpriteRenderer::fragmentSizeRatio * (float) SCR_HEIGHT * (float) gameBoard.height;
+    
+    float px_size = (float) board_height / ((float) SpriteRenderer::textures[texIndex].height - ((float) SpriteRenderer::totalFrameHeightMargin));
+    
+    float frame_height = px_size * SpriteRenderer::textures[texIndex].height;
+    float frame_width  = px_size * SpriteRenderer::textures[texIndex].width;
+    
+    float frame_x = SpriteRenderer::Board_marginRatio_x * SCR_WIDTH  - ((float) frame_width  / 2) - px_size * ((float) SpriteRenderer::totalFrameWidthMarginLeft / 2) + px_size * ((float) SpriteRenderer::totalFrameWidthMarginRight / 2);
+    float frame_y = SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT - ((float) frame_height / 2) + (SpriteRenderer::totalFrameHeightMargin / 2) * px_size;
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(frame_x, frame_y, 0.0f));
+    model = glm::scale(model, glm::vec3(frame_width, frame_height, 1.0f));
+    
+    SpriteRenderer::genericShader->use();
+    SpriteRenderer::genericShader->setInt("genericTex", 0);
+    SpriteRenderer::fragmentShader->setMat4("projection", glm::ortho(0.0f, (float) SCR_WIDTH, (float) SCR_HEIGHT, 0.0f, -1.0f, 1.0f));
+    SpriteRenderer::fragmentShader->setMat4("model", model);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 void SpriteRenderer::renderScore(unsigned int texIndex, unsigned int score, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
-    int digitCount = 6;
+    int digitCount = 7;
     int digits[digitCount];
     
+    // Precalculate size of a single fragment
+    float fragmentSize = SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT;
+    
     // Calculate score text width, height and clearance
-    float score_width = SpriteRenderer::scoreWidthRatio * SCR_WIDTH;
+    float score_width = SpriteRenderer::scoreHeightRatio * SCR_HEIGHT;
     float score_height = ((float) SpriteRenderer::textures[texIndex].height / (float) SpriteRenderer::textures[texIndex].width) * score_width;
     float score_clearance = SpriteRenderer::scoreClearanceY * score_height;
     
@@ -63,8 +91,8 @@ void SpriteRenderer::renderScore(unsigned int texIndex, unsigned int score, Game
     float number_clearance = SpriteRenderer::numClearanceX * number_width;
     
     // Calculate score number position
-    float number_x = SpriteRenderer::Board_marginRatio_x * SCR_WIDTH - (gameBoard.width / 2) * SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT;
-    float number_y = SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT - (gameBoard.height / 2) * SpriteRenderer::fragmentSizeRatio * SCR_HEIGHT + number_height + score_height + score_clearance;
+    float number_x = SpriteRenderer::Board_marginRatio_x * SCR_WIDTH - (gameBoard.width / 2) * fragmentSize - SpriteRenderer::score_marginRatio_x * fragmentSize;
+    float number_y = SpriteRenderer::Board_marginRatio_y * SCR_HEIGHT - (gameBoard.height / 2) * fragmentSize + number_height + score_height + score_clearance;
     
     // Calculate score text position
     float score_x = number_x - score_width;
@@ -74,7 +102,6 @@ void SpriteRenderer::renderScore(unsigned int texIndex, unsigned int score, Game
     for(unsigned int i = 0; i < digitCount; i++){
         digits[i] = ((int) floor(score / pow(10, i))) % 10;
     }
-    std::cout << "score: " << score << std::endl;
     
     // -----Number draw loop-----
     // Start using generic shader
@@ -97,16 +124,15 @@ void SpriteRenderer::renderScore(unsigned int texIndex, unsigned int score, Game
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
     
-    // -----Score Text Drawing-----
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(score_x, score_y, 0.0f));
-    model = glm::scale(model, glm::vec3(score_width, score_height, 1.0f));
-    
-    SpriteRenderer::genericShader->setMat4("model", model);
-    
-    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    
+//    // -----Score Text Drawing-----
+//    glm::mat4 model = glm::mat4(1.0f);
+//    model = glm::translate(model, glm::vec3(score_x, score_y, 0.0f));
+//    model = glm::scale(model, glm::vec3(score_width, score_height, 1.0f));
+//
+//    SpriteRenderer::genericShader->setMat4("model", model);
+//
+//    glBindTexture(GL_TEXTURE_2D, SpriteRenderer::textures[texIndex].ID);
+//    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 SpriteRenderer::SpriteRenderer(){
@@ -220,8 +246,19 @@ void SpriteRenderer::renderBoard(unsigned int texIndex, GameBoard board, unsigne
 void SpriteRenderer::renderBackground(unsigned int texIndex, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
     glm::mat4 model = glm::mat4(1.0f);
     
-    float scaleY = SCR_HEIGHT;
-    float scaleX = (16.0f/9.0f) * SCR_HEIGHT;
+    float scaleY;
+    float scaleX;
+    
+    float screenAspectRatio  = (float) SCR_WIDTH / (float) SCR_HEIGHT;
+    float textureAspectRatio = (float) SpriteRenderer::textures[texIndex].width / (float) SpriteRenderer::textures[texIndex].height;
+    
+    if(screenAspectRatio <= textureAspectRatio){
+        scaleY = SCR_HEIGHT;
+        scaleX = textureAspectRatio * SCR_HEIGHT;
+    }else{
+        scaleX = SCR_WIDTH;
+        scaleY = (1/textureAspectRatio) * SCR_WIDTH;
+    }
     
     model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
     
@@ -265,6 +302,7 @@ void SpriteRenderer::renderTetromino(unsigned int texIndex, Tetromino* tetromino
     }
 }
 
-void SpriteRenderer::renderUI(unsigned int scoreIndex, unsigned int score, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
+void SpriteRenderer::renderUI(unsigned int scoreIndex, unsigned int frameIndex, unsigned int score, GameBoard gameBoard, unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT){
+    SpriteRenderer::renderFrame(frameIndex, gameBoard, SCR_WIDTH, SCR_HEIGHT);
     SpriteRenderer::renderScore(scoreIndex, score, gameBoard, SCR_WIDTH, SCR_HEIGHT);
 }

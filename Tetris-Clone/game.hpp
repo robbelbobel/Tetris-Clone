@@ -35,6 +35,7 @@ private:
     
     unsigned int fragTex;
     unsigned int backgroundTex;
+    unsigned int frameTex;
     unsigned int scoreTex;
     
     unsigned int score;

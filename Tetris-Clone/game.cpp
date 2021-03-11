@@ -47,12 +47,12 @@ void Game::inputHandler(){
 void Game::render(unsigned int scr_width, unsigned int scr_height){
     // Draw the background
     Game::spriteRenderer.renderBackground(Game::backgroundTex, scr_width, scr_height);
+    // Draw the UI
+    Game::spriteRenderer.renderUI(Game::scoreTex, Game::frameTex, Game::score, Game::gameBoard, scr_width, scr_height);
     // Draw the gameboard
     Game::spriteRenderer.renderBoard(Game::fragTex, Game::gameBoard, scr_width, scr_height);
     // Draw the falling tetromino
     Game::spriteRenderer.renderTetromino(Game::fragTex, Game::activeTetromino, Game::gameBoard, scr_width, scr_height);
-    // Draw the UI
-    Game::spriteRenderer.renderUI(Game::scoreTex, Game::score, Game::gameBoard, scr_width, scr_height);
 }
 
 void Game::fall(){
@@ -127,6 +127,7 @@ Game::Game(GLFWwindow* win){
     
     Game::fragTex = Game::spriteRenderer.loadTexture("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/fragment.png");
     Game::backgroundTex = Game::spriteRenderer.loadTexture("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/background.png");
+    Game::frameTex = Game::spriteRenderer.loadTexture("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/frame.png");
     Game::scoreTex = Game::spriteRenderer.loadNumbers("/Users/robbetiteca/projects/Tetris-Clone/Tetris-Clone/assets/numbers");
 }
 
