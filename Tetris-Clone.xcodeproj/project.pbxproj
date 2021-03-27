@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC708A3025FFB69A008E283E /* gameHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC708A2E25FFB69A008E283E /* gameHandler.cpp */; };
+		EC708A3425FFD405008E283E /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC708A3225FFD405008E283E /* menu.cpp */; };
+		EC708A3D25FFD8D9008E283E /* button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC708A3B25FFD8D9008E283E /* button.cpp */; };
 		EC71745025EBE7F4001EB747 /* spriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */; };
+		ECA3AE6D2600EF12003D89C8 /* displayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECA3AE6B2600EF12003D89C8 /* displayManager.cpp */; };
+		ECA3AE7A2600FD2B003D89C8 /* resourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECA3AE782600FD2B003D89C8 /* resourceManager.cpp */; };
 		ECC321E025EA728B00CCE296 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECC321DF25EA728B00CCE296 /* main.cpp */; };
 		ECC321E925EA72B500CCE296 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ECC321E825EA72B500CCE296 /* libglfw.3.3.dylib */; };
 		ECC321EC25EA731A00CCE296 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = ECC321EB25EA731A00CCE296 /* glad.c */; };
@@ -30,8 +35,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EC708A2E25FFB69A008E283E /* gameHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gameHandler.cpp; sourceTree = "<group>"; };
+		EC708A2F25FFB69A008E283E /* gameHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = gameHandler.hpp; sourceTree = "<group>"; };
+		EC708A3225FFD405008E283E /* menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; };
+		EC708A3325FFD405008E283E /* menu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = menu.hpp; sourceTree = "<group>"; };
+		EC708A3B25FFD8D9008E283E /* button.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = button.cpp; sourceTree = "<group>"; };
+		EC708A3C25FFD8D9008E283E /* button.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = button.hpp; sourceTree = "<group>"; };
 		EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = spriteRenderer.cpp; sourceTree = "<group>"; };
 		EC71744F25EBE7F4001EB747 /* spriteRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = spriteRenderer.hpp; sourceTree = "<group>"; };
+		ECA3AE6B2600EF12003D89C8 /* displayManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = displayManager.cpp; sourceTree = "<group>"; };
+		ECA3AE6C2600EF12003D89C8 /* displayManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = displayManager.hpp; sourceTree = "<group>"; };
+		ECA3AE782600FD2B003D89C8 /* resourceManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = resourceManager.cpp; sourceTree = "<group>"; };
+		ECA3AE792600FD2B003D89C8 /* resourceManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = resourceManager.hpp; sourceTree = "<group>"; };
 		ECC321DC25EA728B00CCE296 /* Tetris-Clone */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Tetris-Clone"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECC321DF25EA728B00CCE296 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		ECC321E825EA72B500CCE296 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../usr/local/Cellar/glfw/3.3.3/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
@@ -61,6 +76,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC2966DA2600E0D400B9FEEF /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EC2966DC2600E0E700B9FEEF /* game */,
+				EC2966DB2600E0DC00B9FEEF /* engine */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		EC2966DB2600E0DC00B9FEEF /* engine */ = {
+			isa = PBXGroup;
+			children = (
+				EC708A3225FFD405008E283E /* menu.cpp */,
+				EC708A3325FFD405008E283E /* menu.hpp */,
+				ECC3222725EA9F6F00CCE296 /* shader.cpp */,
+				ECC3222625EA9F6F00CCE296 /* shader.hpp */,
+				EC708A3B25FFD8D9008E283E /* button.cpp */,
+				EC708A3C25FFD8D9008E283E /* button.hpp */,
+				EC708A2E25FFB69A008E283E /* gameHandler.cpp */,
+				EC708A2F25FFB69A008E283E /* gameHandler.hpp */,
+				ECC3222225EA8D3600CCE296 /* tetromino.cpp */,
+				ECC3222125EA8D3600CCE296 /* tetromino.hpp */,
+				EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */,
+				EC71744F25EBE7F4001EB747 /* spriteRenderer.hpp */,
+				ECC321F425EA83E200CCE296 /* fragment.cpp */,
+				ECC321F525EA83E200CCE296 /* fragment.hpp */,
+				ECC321F025EA82DF00CCE296 /* game.cpp */,
+				ECC321F125EA82DF00CCE296 /* game.hpp */,
+				ECC3222B25EA9FA600CCE296 /* shaders */,
+				ECA3AE6B2600EF12003D89C8 /* displayManager.cpp */,
+				ECA3AE6C2600EF12003D89C8 /* displayManager.hpp */,
+				ECA3AE782600FD2B003D89C8 /* resourceManager.cpp */,
+				ECA3AE792600FD2B003D89C8 /* resourceManager.hpp */,
+			);
+			path = engine;
+			sourceTree = "<group>";
+		};
+		EC2966DC2600E0E700B9FEEF /* game */ = {
+			isa = PBXGroup;
+			children = (
+				ECE1A71C25EBC9C100FC4D86 /* assets */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
 		ECC321D325EA728A00CCE296 = {
 			isa = PBXGroup;
 			children = (
@@ -81,21 +141,10 @@
 		ECC321DE25EA728B00CCE296 /* Tetris-Clone */ = {
 			isa = PBXGroup;
 			children = (
-				ECE1A71C25EBC9C100FC4D86 /* assets */,
+				EC2966DA2600E0D400B9FEEF /* src */,
 				ECC321EA25EA731A00CCE296 /* include */,
-				ECC3222B25EA9FA600CCE296 /* shaders */,
 				ECC321EB25EA731A00CCE296 /* glad.c */,
 				ECC321DF25EA728B00CCE296 /* main.cpp */,
-				ECC321F025EA82DF00CCE296 /* game.cpp */,
-				ECC321F125EA82DF00CCE296 /* game.hpp */,
-				ECC321F425EA83E200CCE296 /* fragment.cpp */,
-				ECC321F525EA83E200CCE296 /* fragment.hpp */,
-				ECC3222225EA8D3600CCE296 /* tetromino.cpp */,
-				ECC3222125EA8D3600CCE296 /* tetromino.hpp */,
-				ECC3222725EA9F6F00CCE296 /* shader.cpp */,
-				ECC3222625EA9F6F00CCE296 /* shader.hpp */,
-				EC71744E25EBE7F4001EB747 /* spriteRenderer.cpp */,
-				EC71744F25EBE7F4001EB747 /* spriteRenderer.hpp */,
 			);
 			path = "Tetris-Clone";
 			sourceTree = "<group>";
@@ -164,7 +213,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC708A3025FFB69A008E283E /* gameHandler.cpp in Sources */,
+				ECA3AE6D2600EF12003D89C8 /* displayManager.cpp in Sources */,
+				EC708A3D25FFD8D9008E283E /* button.cpp in Sources */,
+				ECA3AE7A2600FD2B003D89C8 /* resourceManager.cpp in Sources */,
 				ECC3222825EA9F6F00CCE296 /* shader.cpp in Sources */,
+				EC708A3425FFD405008E283E /* menu.cpp in Sources */,
 				EC71745025EBE7F4001EB747 /* spriteRenderer.cpp in Sources */,
 				ECC321E025EA728B00CCE296 /* main.cpp in Sources */,
 				ECC3222325EA8D3600CCE296 /* tetromino.cpp in Sources */,

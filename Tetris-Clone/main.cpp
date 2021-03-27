@@ -7,9 +7,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <iostream>
-#include "include/glad/glad.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "game.hpp"
+#include "gameHandler.hpp"
 
 //-----SCREEN VARS-----
 unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 450;
@@ -49,14 +49,14 @@ int main(int argc, const char * argv[]) {
     glViewport(SCR_WIDTH, SCR_HEIGHT, 0, 0);
     
     // Create Game Object
-    Game game(window);
+    GameHandler gameHandler(window);
     
     //-----MAIN LOOP-----
     while(!glfwWindowShouldClose(window)){
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        game.update(SCR_WIDTH, SCR_HEIGHT);
+        gameHandler.update(SCR_WIDTH, SCR_HEIGHT);
         
         int glErr = glGetError();
         if(glErr != GL_NO_ERROR){

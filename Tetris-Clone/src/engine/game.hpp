@@ -10,12 +10,16 @@
 
 #include <stdio.h>
 #include "spriteRenderer.hpp"
+#include "resourceManager.hpp"
+#include "displayManager.hpp"
 #include <GLFW/glfw3.h>
 
-enum gameStates{
-    GAME_MENU,
-    GAME_PAUSE,
-    GAME_RUNNING
+enum buttons{
+    BUTTON_RIGHT,
+    BUTTON_LEFT,
+    BUTTON_DOWN,
+    BUTTON_ROTATE,
+    BUTTON_NONE
 };
 
 class Game{
@@ -23,21 +27,22 @@ private:
     Tetromino *activeTetromino = nullptr;
     GameBoard gameBoard;
     
-    SpriteRenderer spriteRenderer;
-    
     GLFWwindow* window = nullptr;
+    
+    SpriteRenderer* spriteRenderer;
+    ResourceManager* resourceManager;
+    GameDisplayManager* gameDisplayManager;
     
     // -----Time Variables-----
     // Move Variables
     const unsigned int moveSpeed = 10;
     float moveCounter = 0.0f;
+    bool canRotate;
     // Fall Variables
     const float fallSpeed = 0.5f;
     float fallCounter = 0.0f;
-    // Delta Time Variables
-    float d_time = 0.0f;
-    float old_time;
     
+    // Texture ID's
     unsigned int fragTex;
     unsigned int backgroundTex;
     unsigned int frameTex;
@@ -45,20 +50,20 @@ private:
     
     unsigned int score;
     
+    // Game State Variables
     bool gameOver;
-    bool canRotate;
     
-    void inputHandler();
-    void render(unsigned int scr_width, unsigned int scr_height);
-    void fall();
+    // Private Game Functions
+    void render(unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT);
+    void fall(float deltaTime);
     void checkRows();
     
-    int activeGameState;
-    
 public:
-    Game(GLFWwindow* win);
-    //Main update function
-    void update(unsigned int scr_width, unsigned int scr_height);
+    void moveHandler(unsigned int button);
+    void rotationHandler(unsigned int button);
+    
+    Game(GLFWwindow* win, SpriteRenderer* spriteRenderer, ResourceManager* resourceManager);
+    void update(unsigned int SCR_WIDTH, unsigned int SCR_HEIGHT, float deltaTime);
 };
 
 #endif /* game_hpp */

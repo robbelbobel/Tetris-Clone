@@ -8,7 +8,7 @@
 #ifndef shader_hpp
 #define shader_hpp
 
-#include "include/glad/glad.h"
+#include <glad/glad.h>
 #include <iostream>
 #include <string>
 #include <fstream>
